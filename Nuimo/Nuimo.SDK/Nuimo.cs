@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.Storage.Streams;
 
 namespace Nuimo.SDK
 {
@@ -47,5 +50,25 @@ namespace Nuimo.SDK
 		}
 
 		public bool Connected { get { return _nuimo != null; } }
+
+		public async Task<byte> GetBatteryStatus()
+		{
+			var batteryService = _nuimo.GetGattService(Constants.Services.Battery);
+			var characteristic = batteryService.GetCharacteristics(Constants.Characteristics.Battery)[0];
+			var readResult = await characteristic.ReadValueAsync();
+
+			var value = readResult.Value.ToArray();
+			return value[0];
+		}
+
+		public async Task<string> GetDeviceInformation()
+		{
+			var batteryService = _nuimo.GetGattService(Constants.Services.DeviceInformation);
+			var characteristic = batteryService.GetCharacteristics(Constants.Characteristics.DeviceInformation)[0];
+			var readResult = await characteristic.ReadValueAsync();
+
+			var value = Encoding.UTF8.GetString(readResult.Value.ToArray());
+			return value;
+		}
 	}
 }
