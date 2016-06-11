@@ -34,21 +34,6 @@ namespace Nuimo.SDK
 			if (deviceInformation != null)
 				_nuimo = await BluetoothLEDevice.FromIdAsync(deviceInformation.Id);
 
-			var x = " **   ** " +
-					" * * * * " +
-					"  *****  " +
-					"  *   *  " +
-					" * * * * " +
-					" *  *  * " +
-					" * * * * " +
-					"  *   *  " +
-					"   ***   ";
-
-			var led = new LED();
-			led.SetDisplay(x);
-
-			System.Diagnostics.Debug.WriteLine(led.ToString());
-
 			return _nuimo != null;
 		}
 
