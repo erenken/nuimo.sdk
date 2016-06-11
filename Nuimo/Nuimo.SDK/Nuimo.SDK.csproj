@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Constants\Characteristics.cs" />
     <Compile Include="Constants\Services.cs" />
+    <Compile Include="LED.cs" />
     <Compile Include="Nuimo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Nuimo.SDK.rd.xml" />

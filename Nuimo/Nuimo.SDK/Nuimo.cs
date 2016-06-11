@@ -34,6 +34,21 @@ namespace Nuimo.SDK
 			if (deviceInformation != null)
 				_nuimo = await BluetoothLEDevice.FromIdAsync(deviceInformation.Id);
 
+			var x = " **   ** " +
+					" * * * * " +
+					"  *****  " +
+					"  *   *  " +
+					" * * * * " +
+					" *  *  * " +
+					" * * * * " +
+					"  *   *  " +
+					"   ***   ";
+
+			var led = new LED();
+			led.SetDisplay(x);
+
+			System.Diagnostics.Debug.WriteLine(led.ToString());
+
 			return _nuimo != null;
 		}
 
@@ -69,6 +84,15 @@ namespace Nuimo.SDK
 
 			var value = Encoding.UTF8.GetString(readResult.Value.ToArray());
 			return value;
+		}
+
+		public async Task<LED> GetLEDMatrix()
+		{
+			var batteryService = _nuimo.GetGattService(Constants.Services.LEDMatrix);
+			var characteristic = batteryService.GetCharacteristics(Constants.Characteristics.LEDMatrix)[0];
+			var readResult = await characteristic.ReadValueAsync();
+
+			return (LED)readResult.Value.ToArray();
 		}
 	}
 }
