@@ -13,6 +13,13 @@ namespace Nuimo.SDK
 	{
 		private byte[] _matrix = new byte[11];
 
+		public LED() { }
+
+		public LED(string characterMatrix, byte brightness = 0x7F, byte timeout = 0x64)
+		{
+			SetDisplay(characterMatrix, brightness, timeout);
+		}
+
 		public short Rows { get { return 9; } }
 		public short Columns { get { return 9; } }
 
@@ -30,7 +37,7 @@ namespace Nuimo.SDK
 		public byte Brightness { get; set; }
 		public byte Timeout { get; set; }
 
-		public static implicit operator LED(byte [] buffer)
+		public static LED FromByteArrary(byte[] buffer)
 		{
 			if (buffer.Length != 13)
 				throw new ArgumentException("The buffer is not a valid length");
@@ -48,18 +55,18 @@ namespace Nuimo.SDK
 			return led;
 		}
 
-		public static implicit operator byte[](LED led)
+		public byte[] ToByteArrary()
 		{
 			byte[] buffer = new byte[13];
 
-			led.Matrix.CopyTo(buffer, 0);
-			buffer[11] = led.Brightness;
-			buffer[12] = led.Timeout;
+			Matrix.CopyTo(buffer, 0);
+			buffer[11] = Brightness;
+			buffer[12] = Timeout;
 
 			return buffer;
 		}
 
-		public void SetDisplay(string characterMatrix, byte brightness = 0x7F, byte timeout = 0x64)
+		public void SetDisplay(string characterMatrix, byte brightness = 0xFF, byte timeout = 0x64)
 		{
 			characterMatrix = Regex.Replace(characterMatrix, "[^* ]", string.Empty);
 
@@ -104,9 +111,9 @@ namespace Nuimo.SDK
 
 			int ledPosition = 0;
 			//	Had to do this because BitArray(Matrix) loses the leading 0
-			for (int byteIndex = 0; byteIndex < Matrix.Length; byteIndex ++)
+			for (int byteIndex = 0; byteIndex < Matrix.Length; byteIndex++)
 			{
-				for (int bitIndex = 0; bitIndex < 8; bitIndex ++)
+				for (int bitIndex = 0; bitIndex < 8; bitIndex++)
 				{
 					if (((byte)(Matrix[byteIndex] >> (7 - bitIndex)) & 0x01) == 0x01)
 						led.Append("*");

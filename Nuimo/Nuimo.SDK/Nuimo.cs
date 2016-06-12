@@ -63,8 +63,8 @@ namespace Nuimo.SDK
 
 		public async Task<string> GetDeviceInformation()
 		{
-			var batteryService = _nuimo.GetGattService(Constants.Services.DeviceInformation);
-			var characteristic = batteryService.GetCharacteristics(Constants.Characteristics.DeviceInformation)[0];
+			var devuceInfoService = _nuimo.GetGattService(Constants.Services.DeviceInformation);
+			var characteristic = devuceInfoService.GetCharacteristics(Constants.Characteristics.DeviceInformation)[0];
 			var readResult = await characteristic.ReadValueAsync();
 
 			var value = Encoding.UTF8.GetString(readResult.Value.ToArray());
@@ -73,11 +73,26 @@ namespace Nuimo.SDK
 
 		public async Task<LED> GetLEDMatrix()
 		{
-			var batteryService = _nuimo.GetGattService(Constants.Services.LEDMatrix);
-			var characteristic = batteryService.GetCharacteristics(Constants.Characteristics.LEDMatrix)[0];
+			var ledMatrixService = _nuimo.GetGattService(Constants.Services.LEDMatrix);
+			var characteristic = ledMatrixService.GetCharacteristics(Constants.Characteristics.LEDMatrix)[0];
 			var readResult = await characteristic.ReadValueAsync();
 
-			return (LED)readResult.Value.ToArray();
+			return LED.FromByteArrary(readResult.Value.ToArray());
+		}
+
+		public async Task SetLEDMatrix(string characterMatrix, byte brightness = 0x7F, byte timeout = 0x64)
+		{
+			var ledMatrixService = _nuimo.GetGattService(Constants.Services.LEDMatrix);
+			var characteristic = ledMatrixService.GetCharacteristics(Constants.Characteristics.LEDMatrix)[0];
+
+			LED led = new LED(characterMatrix, brightness, timeout);
+			byte[] buffer = led.ToByteArrary();
+			
+			var writer = new DataWriter();
+			writer.ByteOrder = ByteOrder.BigEndian;
+			writer.WriteBytes(buffer);
+
+			await characteristic.WriteValueAsync(writer.DetachBuffer());
 		}
 	}
 }

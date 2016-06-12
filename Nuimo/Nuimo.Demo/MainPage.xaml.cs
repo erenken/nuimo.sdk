@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,9 +25,26 @@ namespace Nuimo.Demo
     {
 		Nuimo.SDK.Nuimo _nuimo = new Nuimo.SDK.Nuimo();
 
+		List<CheckBox> _checkBoxes = new List<CheckBox>(81);
+
         public MainPage()
         {
             this.InitializeComponent();
+
+			for (int row = 0; row < 9; row ++)
+			{
+				for (int col = 0; col < 9; col ++)
+				{
+					CheckBox checkBox = new CheckBox();
+					Grid.SetRow(checkBox, row);
+					Grid.SetColumn(checkBox, col);
+
+					uiLEDGrid.Children.Add(checkBox);
+
+					
+					_checkBoxes.Add(checkBox);
+				}
+			}
         }
 
 		private async void uiConnectButton_Click(object sender, RoutedEventArgs e)
@@ -34,6 +52,20 @@ namespace Nuimo.Demo
 			await _nuimo.Connect();
 
 			uiConnectTextBox.Text = _nuimo.Connected ? "Connected" : "Disconnected";
+		}
+
+		private async void uiSetLEDMatrix_Click(object sender, RoutedEventArgs e)
+		{
+			StringBuilder matrix = new StringBuilder();
+			foreach(var checkbox in _checkBoxes)
+			{
+				if ((bool)checkbox.IsChecked)
+					matrix.Append("*");
+				else
+					matrix.Append(" ");
+			}
+
+			await _nuimo.SetLEDMatrix(matrix.ToString());
 		}
 	}
 }

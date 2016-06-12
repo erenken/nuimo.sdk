@@ -10,5 +10,31 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Button x:Name="uiConnectButton" Content="Connect to Nuimo" HorizontalAlignment="Left" Height="31" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.765,2.407" Click="uiConnectButton_Click"/>
 		<TextBlock x:Name="uiConnectTextBox" HorizontalAlignment="Left" Margin="167,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top">Disconnected</TextBlock>
+		<Grid x:Name="uiLEDGrid" HorizontalAlignment="Left" Height="457" Margin="374,69,0,0" VerticalAlignment="Top" Width="568">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Button Grid.Row="9" Grid.ColumnSpan="9" Content="Set Led Matrix" Name="uiSetLEDMatrix" HorizontalAlignment="Center" Click="uiSetLEDMatrix_Click" />
+		</Grid>
 	</Grid>
 </Page>
