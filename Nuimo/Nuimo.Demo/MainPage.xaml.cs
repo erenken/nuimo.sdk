@@ -52,9 +52,10 @@ namespace Nuimo.Demo
 			await _nuimo.Connect();
 
 			uiConnectTextBox.Text = _nuimo.Connected ? "Connected" : "Disconnected";
+			uiSetLEDMatrixButton.IsEnabled = true;
 		}
 
-		private async void uiSetLEDMatrix_Click(object sender, RoutedEventArgs e)
+		private async void uiSetLEDMatrixButton_Click(object sender, RoutedEventArgs e)
 		{
 			StringBuilder matrix = new StringBuilder();
 			foreach(var checkbox in _checkBoxes)

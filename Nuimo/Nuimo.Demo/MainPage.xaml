@@ -34,7 +34,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Button Grid.Row="9" Grid.ColumnSpan="9" Content="Set Led Matrix" Name="uiSetLEDMatrix" HorizontalAlignment="Center" Click="uiSetLEDMatrix_Click" />
+			<Button Grid.Row="9" Grid.ColumnSpan="9" Content="Set LED Matrix" Name="uiSetLEDMatrixButton" HorizontalAlignment="Center" Click="uiSetLEDMatrixButton_Click" IsEnabled="False" />
 		</Grid>
 	</Grid>
 </Page>
